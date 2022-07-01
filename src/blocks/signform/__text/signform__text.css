@@ -1,0 +1,15 @@
+.signform__text {
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  border-style: none;
+  border-bottom: 2px solid #CCCCCC;
+  box-sizing: border-box;
+  color: #CCCCCC;
+  background-color: black;
+  margin: 0 0 29px;
+  opacity: 1;
+  padding-bottom: 7px;
+  width: 358px;
+}

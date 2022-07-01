@@ -1,0 +1,16 @@
+.profile__overlay {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  width: 120px;
+  cursor: pointer;
+}
+.profile__overlay:hover .profile__icon{
+  visibility: visible;
+}
+.profile__overlay:hover .profile__avatar{
+  opacity: 0.25;
+}

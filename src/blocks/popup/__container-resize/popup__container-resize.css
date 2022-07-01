@@ -1,0 +1,17 @@
+.popup__container-resize {
+  position: relative;
+  box-sizing: border-box;
+  height: 562px;
+  max-width: 816px;
+  margin: 0 auto;
+}
+@media screen and (max-width: 900px) {
+  .popup__container-resize {
+    max-width: calc(100% - 150px);
+  }
+}
+@media screen and (max-width: 400px) {
+  .popup__container-resize {
+    max-width: 240px;
+  }
+}

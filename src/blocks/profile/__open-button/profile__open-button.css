@@ -1,0 +1,22 @@
+.profile__open-button {
+  background: url(../../../images/Edit_Button.svg);
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  cursor: pointer;
+  border: none;
+  margin-top: 15px;
+  margin-left: 20px;
+}
+.profile__open-button:hover {
+  opacity: 0.6;
+}
+@media screen and (max-width: 750px) {
+  .profile__open-button {
+    width: 18px;
+    height: 18px;
+    align-self: flex-start;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}

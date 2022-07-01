@@ -1,0 +1,17 @@
+.signform__button {
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  color: black;
+  cursor: pointer;
+  margin: 18px 0 auto;
+  min-height: 50px;
+  width: 358px;
+}
+.signform__button:hover {
+  opacity: 0.85;
+  cursor: pointer;
+}

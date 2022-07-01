@@ -1,0 +1,15 @@
+.card {
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: 282px 1fr;
+  grid-template-columns: 282px;
+  gap: 25px;
+  overflow: hidden;
+}
+@media screen and (max-width: 950px) {
+  .card {
+    grid-template-columns: auto;
+  }
+}

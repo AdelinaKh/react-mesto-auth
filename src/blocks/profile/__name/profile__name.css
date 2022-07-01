@@ -1,0 +1,14 @@
+.profile__name {
+  font-family: "Inter", "Arial", "Helvetica", sans-serif;
+  font-weight: 500;
+  font-size: 2.625rem;
+  line-height: 1.14;
+  margin: 0 0 16px;
+}
+@media screen and (max-width: 750px) {
+  .profile__name {
+    font-size: 1.687rem;
+    line-height: 1.21;
+    margin-bottom: 14px;
+  }
+}

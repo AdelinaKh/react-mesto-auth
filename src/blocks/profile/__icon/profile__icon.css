@@ -1,0 +1,7 @@
+.profile__icon{
+  color: #fff;
+  position: absolute;
+  visibility: hidden;
+  top: 40%;
+  left: 40%;
+}

@@ -1,0 +1,7 @@
+.signform__message {
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
