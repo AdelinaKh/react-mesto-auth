@@ -12,11 +12,10 @@ import AddPlacePopup from "./AddPlacePopup";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
-import * as auth from '../utils/auth';
+import * as auth from "../utils/auth";
 import InfoTooltip from "./InfoTooltip";
-import fail from "../images/fail.svg"
-import success from "../images/success.svg"
-
+import fail from "../images/fail.svg";
+import success from "../images/success.svg";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -26,8 +25,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
-  const [popupImage, setPopupImage] = useState('');
-  const [popupTitle, setPopupTitle] = useState('');
+  const [popupImage, setPopupImage] = useState("");
+  const [popupTitle, setPopupTitle] = useState("");
   const [infoTooltip, setInfoTooltip] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
@@ -46,7 +45,7 @@ function App() {
   }
 
   function handleInfoTooltip() {
-    setInfoTooltip(true)
+    setInfoTooltip(true);
   }
 
   function closeAllPopups() {
@@ -54,7 +53,7 @@ function App() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setSelectedCard(null);
-    setInfoTooltip(false)
+    setInfoTooltip(false);
   }
 
   //Escape
@@ -84,15 +83,17 @@ function App() {
 
   // получение начальных данных
   useEffect(() => {
-    Promise.all([api.getInitialCards(), api.getUserInfo()])
-      .then(([cards, user]) => {
-        setCards(cards);
-        setCurrentUser(user);
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-  }, []);
+    if (loggedIn) {
+      Promise.all([api.getInitialCards(), api.getUserInfo()])
+        .then(([cards, user]) => {
+          setCards(cards);
+          setCurrentUser(user);
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+    }
+  }, [loggedIn]);
 
   //ставим/удаляем лайк
   function handleCardLike(card) {
@@ -174,66 +175,69 @@ function App() {
   const navigate = useNavigate();
   //Функция, позволяющие разлогиниться
   function signOut() {
-    setUserEmail(null)
-    setLoggedIn(false)
-    navigate('/sign-in')
-    localStorage.removeItem('jwt')
+    setUserEmail(null);
+    setLoggedIn(false);
+    navigate("/sign-in");
+    localStorage.removeItem("jwt");
   }
 
   function handleTokenCheck() {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
-    //проверяем токен пользователя
-      auth.checkToken(jwt)
-      .then((res) => {
-        if(res) {
-          setUserEmail(res.data.email)
-          setLoggedIn(true)
-        }
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
+      //проверяем токен пользователя
+      auth
+        .checkToken(jwt)
+        .then((res) => {
+          if (res) {
+            setUserEmail(res.data.email);
+            setLoggedIn(true);
+          }
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
     }
   }
-  //проверит токен при загрузке страницы 
+  //проверит токен при загрузке страницы
   useEffect(() => {
-    handleTokenCheck()
-  }, [])
+    handleTokenCheck();
+  }, []);
   //если залогинен переходим на главную страницу
   useEffect(() => {
-    if(loggedIn === true){
-      navigate('/')
+    if (loggedIn === true) {
+      navigate("/");
     }
-  }, [loggedIn, navigate])
+  }, [loggedIn, navigate]);
 
   //Авторизация пользователя sign-in
-  function handleLogin( email, password ) {
-    auth.login( email, password )
+  function handleLogin(email, password) {
+    auth
+      .login(email, password)
       .then((res) => {
-          localStorage.setItem('jwt', res.token)
-          handleTokenCheck()
-          navigate('/')
+        localStorage.setItem("jwt", res.token);
+        handleTokenCheck();
+        navigate("/");
       })
       .catch(() => {
-        setPopupImage(fail)
-        setPopupTitle("Что-то пошло не так! Попробуйте ещё раз.")
-        handleInfoTooltip()
+        setPopupImage(fail);
+        setPopupTitle("Что-то пошло не так! Попробуйте ещё раз.");
+        handleInfoTooltip();
       });
   }
   //Регистрация пользователя sign-up
-  function handleRegister( email, password ) {
-    auth.register( email, password )
+  function handleRegister(email, password) {
+    auth
+      .register(email, password)
       .then(() => {
-          setPopupImage(success)
-          setPopupTitle("Вы успешно зарегистрировались!")
-          navigate('/sign-in')
+        setPopupImage(success);
+        setPopupTitle("Вы успешно зарегистрировались!");
+        navigate("/sign-in");
       })
       .catch(() => {
-        setPopupImage(fail)
-        setPopupTitle("Что-то пошло не так! Попробуйте ещё раз.")
+        setPopupImage(fail);
+        setPopupTitle("Что-то пошло не так! Попробуйте ещё раз.");
       })
-      .finally(handleInfoTooltip)
+      .finally(handleInfoTooltip);
   }
 
   return (
@@ -242,41 +246,56 @@ function App() {
         <div className="page__container">
           <Routes>
             {/* Регистрация */}
-            <Route path="/sign-up" element={ 
-              <>
-                <Header title="Войти" route="/sign-in" />
-                <Register onRegister={handleRegister} />
-              </>
-            }
+            <Route
+              path="/sign-up"
+              element={
+                <>
+                  <Header title="Войти" route="/sign-in" />
+                  <Register onRegister={handleRegister} />
+                </>
+              }
             />
             {/* Авторизация */}
-            <Route path="/sign-in" element={
-              <>
-                <Header title="Регистрация" route="/sign-up" />
-                <Login onLogin={handleLogin} />
-              </>
-            }
+            <Route
+              path="/sign-in"
+              element={
+                <>
+                  <Header title="Регистрация" route="/sign-up" />
+                  <Login onLogin={handleLogin} />
+                </>
+              }
             />
             {/* Главная страница */}
-            <Route exact path="/" element={
-              <>
-                <Header title="Выйти" userEmail={userEmail} onClick={signOut} route=''/>
-                <ProtectedRoute
-                  component={Main}
-                  loggedIn={loggedIn}
-                  cards={cards}
-                  onEditAvatar={handleEditAvatarClick}
-                  onEditProfile={handleEditProfileClick}
-                  onAddPlace={handleAddPlaceClick}
-                  onCardClick={handleCardClick}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleDeleteClick}
-                />
-                <Footer/>
-              </>
-            }
+            <Route
+              exact
+              path="/"
+              element={
+                <>
+                  <Header
+                    title="Выйти"
+                    userEmail={userEmail}
+                    onClick={signOut}
+                    route=""
+                  />
+                  <ProtectedRoute
+                    component={Main}
+                    loggedIn={loggedIn}
+                    cards={cards}
+                    onEditAvatar={handleEditAvatarClick}
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleDeleteClick}
+                  />
+                  <Footer />
+                </>
+              }
             />
-            <Route path="*" element={<Navigate to={loggedIn ? "/" : "/sign-in"}/>} />
+            <Route
+              path="*"
+              element={<Navigate to={loggedIn ? "/" : "/sign-in"} />}
+            />
           </Routes>
           <ImagePopup
             name="resize"
